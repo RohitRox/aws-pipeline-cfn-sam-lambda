@@ -130,8 +130,15 @@ Resources:
             ChangeSetName: pipeline-changeset
             Capabilities: CAPABILITY_NAMED_IAM
             TemplatePath: !Sub "${AppName}-BuildArtifact::stack.yaml"
-            # TemplateConfiguration: !If [ HasStagingVariables, !Sub "${AppName}-BuildArtifact::${StagingFile}", "" ]
+            TemplateConfiguration: !Sub "${AppName}-BuildArtifact::parameters.json"
           RunOrder: 1
+        - Name: Approval
+          ActionTypeId:
+            Category: Approval
+            Owner: AWS
+            Version: "1"
+            Provider: Manual
+          RunOrder: 2
         - Name: execute-changeset
           InputArtifacts: []
           ActionTypeId:
@@ -144,7 +151,7 @@ Resources:
             StackName: !Sub "${AppName}-serverless-stack"
             ActionMode: CHANGE_SET_EXECUTE
             ChangeSetName: pipeline-changeset
-          RunOrder: 2
+          RunOrder: 3
       ArtifactStore:
         Type: S3
         Location: !Ref S3Bucket
