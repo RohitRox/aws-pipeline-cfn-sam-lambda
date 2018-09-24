@@ -10,6 +10,11 @@ Globals:
   Function:
     Timeout: 3
 
+Parameters:
+  ScmVersion:
+    Type: String
+    Default: default
+
 Resources:
   HellodFunction:
       Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -20,6 +25,7 @@ Resources:
         Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
           Variables:
             NODE_ENV: production
+            SCM_VERSION: !Ref ScmVersion
         Events:
           Hello:
             Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -35,6 +41,7 @@ Resources:
       Environment:
         Variables:
           NODE_ENV: production
+          SCM_VERSION: !Ref ScmVersion
       Events:
         GoodBye:
           Type: Api

@@ -44,7 +44,8 @@ exports.handler = async (event, context) => {
       'statusCode': 200,
       'body': JSON.stringify({
         message: 'Hello world',
-        location: ret.data.trim()
+        location: ret.data.trim(),
+        version: process.env.SCM_VERSION
       })
     }
   } catch (err) {
