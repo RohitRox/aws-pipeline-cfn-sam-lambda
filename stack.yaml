@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'aws-pipeline-cfn-sam-lambda
+
+  Sample SAM Template for aws-pipeline-cfn-sam-lambda
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+Outputs:
+  GoodByeApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/good_bye/
+  HelloWorldApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/
+Resources:
+  GoodByeFunction:
+    Properties:
+      CodeUri: s3://aws-pipeline-cfn-sam-lambda/50558aed586a0a8f7b3e2f6f15fed015
+      Environment:
+        Variables:
+          NODE_ENV: production
+      Events:
+        GoodBye:
+          Properties:
+            Method: get
+            Path: /good_bye
+          Type: Api
+      Handler: index.handler
+      Runtime: nodejs8.10
+    Type: AWS::Serverless::Function
+  HellodFunction:
+    Properties:
+      CodeUri: s3://aws-pipeline-cfn-sam-lambda/010fea420c8ca5982a4e908d5fe73f84
+      Environment:
+        Variables:
+          NODE_ENV: production
+      Events:
+        Hello:
+          Properties:
+            Method: get
+            Path: /hello
+          Type: Api
+      Handler: index.handler
+      Runtime: nodejs8.10
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

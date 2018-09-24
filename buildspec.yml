@@ -1,0 +1,19 @@
+version: 0.0
+environment_variables:
+  plaintext:
+    "S3_BUCKET": ""
+containers:
+  LambdaFunctions:
+    phases:
+      build:
+        commands:
+          - cd hello && npm install && npm test
+          - cd ..
+          - cd good_bye && npm install && npm test
+          - cd ..
+      post_build:
+        commands:
+          - aws cloudformation package --template template.yaml --s3-bucket $S3_BUCKET --output-template stack.yaml
+    artifacts:
+      files:
+        - stack.yaml
